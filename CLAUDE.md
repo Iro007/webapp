@@ -86,6 +86,8 @@ boundary when the first protected route exists.
   reports go to `docs/evaluation/`.
 - Its UI copies the `/preview` dashboard shell into `components/shell/` (no cross-feature imports). Keep it visually
   identical to `/preview` and never edit `dashboard-preview`, the home page or `src/ui` for this feature.
+- Luma is simulated end to end: signed webhooks hit `/api/luma/webhook` (HMAC check, replay guard, server-memory feed
+  read by `/api/luma/feed`). `pnpm luma:simulate` sends them from the terminal. Guests are fictional (`@example.com`).
 - Jev cannot count or compare dates: turn counters into categories in code first (`services/profile-state.ts`).
 - The playbook for the challenge is `docs/playbook.md`.
 

@@ -70,7 +70,7 @@ Cada decisión queda en el historial y se ve en "Recent activity", por ejemplo: 
 - **Equipo comercial:** atiende los verdes del día con el resumen listo y trabaja la cola de revisión (aprobar o corregir).
 - **Equipo de media/contenido:** mantiene las secuencias educativas por nivel de madurez.
 - **Tech:**
-  - Conecta el webhook real de Luma a `POST /api/luma/webhook`.
+  - Conecta el webhook real de Luma (Luma Plus → Settings → Developer → Webhooks: "Guest Registered" y "Guest Updated") a `POST /api/luma/webhook` y pone su `whsec_…` en `LUMA_WEBHOOK_SECRET`. En el prototipo ese flujo ya funciona simulado de punta a punta: firma HMAC verificada, rechazo de firmas falsas, reenvíos ignorados y check-ins que vuelven a decidir. Lo único que falta es capturar un payload real para confirmar los nombres de los campos.
   - Conecta los cambios del CRM (cargo, ronda) a `POST /api/segment` con su `trigger`.
   - Ajusta los umbrales y vigila el costo y la latencia.
 

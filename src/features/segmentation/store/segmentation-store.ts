@@ -20,7 +20,12 @@ export const useSegmentationStore = create<SegmentationState>()((set) => ({
   history: {},
   reviews: {},
   pendingIds: [],
-  addProfile: (profile) => set((state) => ({ profiles: [profile, ...state.profiles] })),
+  addProfile: (profile) =>
+    set((state) =>
+      state.profiles.some((item) => item.id === profile.id)
+        ? { profiles: state.profiles.map((item) => (item.id === profile.id ? profile : item)) }
+        : { profiles: [profile, ...state.profiles] },
+    ),
   updateProfile: (profile) =>
     set((state) => ({
       profiles: state.profiles.map((item) => (item.id === profile.id ? profile : item)),

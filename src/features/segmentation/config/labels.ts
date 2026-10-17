@@ -53,7 +53,7 @@ export const RECOMMENDATION_LABELS: Record<RecommendationKind, string> = {
 export const TRIGGER_LABELS: Record<Trigger, string> = {
   sign_up: 'signed up on Luma',
   manual_edit: 'profile edited',
-  attended_event: 'attended another event',
+  attended_event: 'checked in at an event',
   role_change: 'changed role',
   funding_round: 'company raised a round',
   re_run: 're-run',

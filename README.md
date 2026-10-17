@@ -14,9 +14,17 @@ is re-decided whenever the person attends another event, changes role or their c
 round.
 
 - Demo: `/segmentation` · Playbook: [`docs/playbook.md`](./docs/playbook.md)
-- APIs: `POST /api/segment` (`{ profile, trigger }`), `POST /api/luma/webhook` (simulated Luma
-  registration; name and email are dropped), `POST /api/segment/evaluate` (`{ mode: 'single' |
-  'consensus' }`, 60 annotated profiles), `POST /api/segment/simulate` (`{ days }`).
+- APIs: `POST /api/segment` (`{ profile, trigger }`), `POST /api/segment/evaluate` (`{ mode:
+  'single' | 'consensus' }`, 60 annotated profiles), `POST /api/segment/simulate` (`{ days }`).
+- **Luma, simulated end to end (no Luma account needed):** `POST /api/luma/webhook` behaves like a
+  production Luma webhook. It verifies the HMAC `webhook-signature` (`t=…,v1=…` over
+  `timestamp.body`, secret `LUMA_WEBHOOK_SECRET`), rejects forged or stale requests (401), ignores
+  replays by `webhook-id`, handles `guest.registered` (new segment) and `guest.updated` with
+  `checked_in_at` (re-decides as "attended event"), and drops name and email before Jev. Fictional
+  guests (`@example.com`) come from **Start Luma sign-ups** on the dashboard or from the terminal:
+  `pnpm luma:simulate --count 20 --every 2 [--kind registration|check_in|auto] [--replay] [--tamper]`.
+  The dashboard polls `GET /api/luma/feed`. The feed lives in server memory, enough for a
+  single-process demo; production would store it in a database.
 - Evaluation from the terminal (dev server running): `pnpm jev:smoke`, `pnpm jev:eval [--consensus]`,
   `pnpm jev:simulate [--days 30]`. Reports and the 12:00 cut-off rule live in
   [`docs/evaluation/`](./docs/evaluation/README.md).
